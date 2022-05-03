@@ -1,14 +1,14 @@
 # Project Summary  
-This project includes an example of how to use R and an open API geocoding service operated by Oregon Department of Administrative Services (DAS).  More information about the service itself including the meta-data can be found at the link below https://navigator.state.or.us/arcgis/rest/services/Locators/gc_Composite/GeocodeServer
+This project includes an example of how to use R and an open API geocoding service operated by Oregon Department of Administrative Services (DAS).  More information about the service itself including the meta-data can be found at the following link https://navigator.state.or.us/arcgis/rest/services/Locators/gc_Composite/GeocodeServer
 
 
-The data and scripts in this repository gather data from Fatal Accident Reporting System (FARS) and Census data and then calculates an age-adjusted population-based pedestrian death rates for each represented racial group to assess disparities.  These rates use the US population as the standard population and employ five years population data using person-years as the denominator.  The analysis script also calculates population-based injury rates for other modes including bicycle and motor vehicle.
+This repository includes a small random set of Oregon addresses to test the scripts and show how this service works using R.
 
 # Script Details  
-Three scripts are available in this repository.  The download_format_FARS_data.r script downloads and prepares FARS data for injury rate analysis.  The download_prepare_census_population_data.r script uses R's Census API tools to download 
-and prepare Census data by age and race for states. The script analyze_FARS_race.r combines the FARS data and Census population data to analyze the rate of injury per 100,000 person-years.  The script can be changed to analyze
-any of the 50 state by toggling a few inputs (see in-line comments).  This script calculates confidence intervals so users can communicate the uncertainty in the measured outcomes.  This script also aggregates  Black, Indigenous, 
-and People of Color race categories into a single group in order to measure the injury rate with more certainty than what is possible with disaggregate BIPOC groups (at least for Oregon).  
+Two scripts are available in this repository.  The DAS_geocode_service_API.r script uses a the sample address file (from the /Data folder) and a batch query to get the spatial coordiantes of the address.  The results
+are then post-processed finding the highest scoring results and filtering our results that only returned the centroid of the zipcode in which the address was found.  Results that are only at the zipcode level may be useful for some pruposes 
+but in many cases are too course for analysis and so are discarded.  The zipcode level results are usually returned becuase the address used for geocoding was not specific enough, typcially missing the address and only inlcuding hte zipcode and city.  
+
 
 ## download_format_FARS_data.r  
 This script downloads raw FARS data from NHTSA FTP site and formats it for analysis.  Working with all the files through the NHTSA FTP site can be challenging and this script is meant to simplify pulling all the files and preparing for 
