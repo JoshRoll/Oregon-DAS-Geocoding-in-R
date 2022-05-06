@@ -6,13 +6,13 @@ This repository includes a small random set of Oregon addresses to test the scri
 
 # Script Details  
 Two scripts are available in this repository.  The DAS_geocode_service_API.r script uses a the sample address file (from the /Data folder) and a batch query to get the spatial coordiantes of the address.  The results
-are then post-processed finding the highest scoring results and filtering our results that only returned the centroid of the zipcode in which the address was found.  Results that are only at the zipcode level may be useful for some pruposes 
+are then post-processed finding the highest scoring results and filtering our results that only returned the centroid of the zipcode in which the address was found.  Results that are only at the zipcode level may be useful for some purposes
 but in many cases are too course for analysis and so are discarded.  The zipcode level results are usually returned becuase the address used for geocoding was not specific enough, typcially missing the address and only inlcuding hte zipcode and city.  
 
 
 ## download_format_FARS_data.r  
-This script downloads raw FARS data from NHTSA FTP site and formats it for analysis.  Working with all the files through the NHTSA FTP site can be challenging and this script is meant to simplify pulling all the files and preparing for 
-this analysis.  Other analyses would likely require preparing the data in different way but this should get you started. Starting in 2019 NHTSA stopped putting the Race data element in the person records and you know have to join it from 
+This script downloads raw FARS data from NHTSA FTP site and formats it for analysis.  Working with all the files through the NHTSA FTP site can be challenging and this script is meant to simplify pulling 
+all the files and preparing for this analysis.  Other analyses would likely require preparing the data in different way but this should get you started. Starting in 2019 NHTSA stopped putting the Race data element in the person records and you know have to join it from 
 a separate file becuase NHTSA now takes multiple races, if reported on death certificate, and includes them in this new race table.  This script only uses the first reported race from the race table to be consistent with past data but for 
 multi-race persons these data would be need to be processed differently.  This script works in 3 steps:  
 ### Step 1 -  Download Raw Data - Download zipped files and unzip them to local drive
