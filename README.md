@@ -27,5 +27,5 @@ The post processed results are used to create a shape file for use in geographic
 
 ## Leaflet Map Example
 
-### Fatal Pedestrian Injury Rates 2014-2018
+### Example of Geocoded Address 
 ![Leaflet Example](www/Leaflet_Example.png)  
