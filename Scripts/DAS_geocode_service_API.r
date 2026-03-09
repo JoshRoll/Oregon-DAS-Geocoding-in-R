@@ -3,7 +3,7 @@
 #Description: This script uses DAS's geocoding service API to geocode address data
 
 #Notes:
-#Updated 3/9/2026
+#Updated 3/9/2026 to consume the latest geocoding service URL and structure
 
   
 	
@@ -12,12 +12,13 @@
 	library(stringr)
 	library(dplyr)
 	library(httr)
-	library(sp)
+	library(sf)
 	library(raster)
 	library(jsonlite)
 	library(htmlwidgets)
 	library(leaflet)
 	library(leaflegend)
+	library(httr2)
 	
 	
 #Custom functions
@@ -33,8 +34,7 @@
 	}
 	#Function to send a batch of addresses for geocoding
 	DAS_geocode_Call <- function(Address){
-        #TempCall <- paste0("https://navigator.state.or.us/arcgis/rest/services/Locators/gc_Composite/GeocodeServer/findAddressCandidates?Street=&City=&State=&ZIP=&SingleLine=+",Address,"&category=&outFields=*&maxLocations=&outSR=&searchExtent=&location=&distance=&magicKey=&f=pjson")
-		TempCall <- paste0("https://navigator.state.or.us/arcgis/rest/services/Locators/OregonAddress/GeocodeServer?Street=&City=&State=&ZIP=&SingleLine=+",Address,"&category=&outFields=*&maxLocations=&outSR=&searchExtent=&location=&distance=&magicKey=&f=pjson")
+        TempCall <- paste0("https://navigator.state.or.us/arcgis/rest/services/Locators/OregonAddress/GeocodeServer?Street=&City=&State=&ZIP=&SingleLine=+",Address,"&category=&outFields=*&maxLocations=&outSR=&searchExtent=&location=&distance=&magicKey=&f=pjson")
 		rest <- GET(TempCall)
 		tempExtract <- fromJSON(rawToChar(rest$content), flatten = T)
 		dfOut <- data.frame(tempExtract$candidates)    
@@ -50,8 +50,7 @@
 	DAS_geocode_Call <- function(address_text,
                              base_url = "https://navigator.state.or.us/arcgis/rest/services/Locators/OregonAddress/GeocodeServer/findAddressCandidates") {
 		  
-		  out <- tryCatch({
-			
+		  out <- tryCatch({			
 			resp <- httr2::request(base_url) |>
 			  httr2::req_url_query(
 				SingleLine = address_text,
@@ -63,8 +62,7 @@
 			dat <- jsonlite::fromJSON(httr2::resp_body_string(resp), simplifyDataFrame = TRUE)
 			
 			# If no candidates returned
-			if (nrow(dat$candidates) == 0) {
-			  
+			if (nrow(dat$candidates) == 0) {			  
 			  return(data.frame(
 				address = "No Address",
 				location.x = NA,				
@@ -110,25 +108,6 @@
 	
 	
 	
-	
-	
-	library(httr2)
-library(jsonlite)
-
-base_url <- "https://navigator.state.or.us/arcgis/rest/services/Locators/OregonAddress/GeocodeServer/findAddressCandidates"
-
-"20400 SW TETON AVE TUALATIN OR 97062"
-resp <- request(base_url) |>
-  req_url_query(
-    SingleLine = "20400 SW TETON AVE TUALATIN OR 97062",
-    f = "json"
-  ) |>
-  req_perform()
-
-txt <- resp_body_string(resp)
-dat <- fromJSON(txt, simplifyDataFrame = TRUE)
-
-dat$candidates
 
 #Define useful script objects
 #---------------------------
