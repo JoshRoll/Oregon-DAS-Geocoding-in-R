@@ -301,7 +301,14 @@
 				 highlightOptions = highlightOptions(color = "white", weight = 2,   bringToFront = TRUE),
 			 popup = ~label,
 			labelOptions = labelOptions(style = list("font-weight" = "normal", padding = "3px 8px",sticky = T, interactive = T),  textsize = "15px",  direction = "auto")
-		) 
+		) %>%
+		addLegend(
+			position = "bottomright",
+			colors = "red",
+			labels = "Geocoded Location",
+			title = "Point Type",
+			opacity = 1
+		)
 	Map
 	#save to file - savewidget doesnt like relative paths so have to define using getwd()
 	saveWidget(Map, file=paste0(getwd(),"/Results/Dynamic_Map.html"), selfcontained = T) 
